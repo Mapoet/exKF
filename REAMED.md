@@ -30,7 +30,7 @@ Figure of result: yellow, measure; red, kalman filter; blue, theory.
 ```
 ,and it is enable auto-partial process with Diff class defined in File `Diff.hpp` which can be enriched `if` and some other feature to deal with no smooth process.
 *  Updating with Measurements is enabled with variantable number and changable Measurements-Equtions in each epoch.
-
+*  Enabled System Arguments with the $\delta$ value to apply in  Theory/Measure Function.
 ## Contributions
 
 Thanks to `Eigen3` and `GMT` tools for Linear Solver and Plotting.
