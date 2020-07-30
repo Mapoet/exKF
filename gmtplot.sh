@@ -12,4 +12,4 @@ gmt psxy -R -J -B -Sc0.02c -Gred -K -O >> two.ps;
 cat exKF2.dat|awk '{print $1,$2}'|\
 gmt psxy -R -J -B -Sc0.02c -Gblue -K -O >> two.ps;
 gmt psxy -R -J -B -T -O >> two.ps;
-gmt psconvert two.ps -A -Ft -E300;
+gmt psconvert two.ps -A -Tg -E600;
