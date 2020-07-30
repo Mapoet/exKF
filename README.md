@@ -50,7 +50,7 @@ Figure of result: yellow, measure; red, kalman filter; blue, theory.
  typedef std::valarray<Diff<Cell>> (*Apply)(const std::valarray<Diff<Cell>>& argsin,const std::valarray<Cell>&parameter);
 ```
 ,and it is enable `Automatic Differentiation` process with Diff class defined in File `Diff.hpp` which can be enriched `if` and some other feature to deal with no smooth process.
-*  Updating with Measurements is enabled with variantable number and changable Measurements-Equtions in each epoch.
+*  Updating with Measurements is enabled with variantable number and changable Measurements-Equations in each epoch.
 *  Enabled System Arguments with the $\delta$ value to apply in  Theory/Measure Function.
 ## Contributions
 
