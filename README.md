@@ -14,12 +14,31 @@ $$[x_m,y_m]^t=[1,0,0,0;0,1,0,0][x_{t+\delta t},y_{t+\delta t},vx_{t+\delta t},vy
 ## test
 
 ```cpp
+theory=[](const std::valarray<exKF::Diff<double>>&argsin,const std::valarray<double>&parameter){
+        std::valarray<exKF::Diff<double>> argsout(4);
+        argsout[0]=argsin[0]+argsin[2]*parameter[1];
+        argsout[1]=argsin[1]+argsin[3]*parameter[1];
+        argsout[2]=argsin[2];
+        argsout[3]=argsin[3];
+        return argsout;
+    }
+measure=[](const std::valarray<exKF::Diff<double>>&argsin,const std::valarray<double>&parameter){
+        std::valarray<exKF::Diff<double>> argsout(2);
+        argsout[0]=argsin[0];
+        argsout[1]=argsin[1];
+        return argsout;
+    }
+```
+
+data feeded in:
+
+```cpp
     theory[0]=0.1*i*sin(p[0]/300*3.14159265)+0.1*i;
     theory[1]=0.2*i*sin(p[0]/500*3.14159265)+0.2*i;
     measure[0]=theory[0]+randn(gen)*beta;
     measure[1]=theory[1]+randn(gen)*beta;
 ```
-![result](https://github.com/Mapoet/exKF/blog/master/two.png)
+![result](./two.png)
 Figure of result: yellow, measure; red, kalman filter; blue, theory.
 
 ## Note on the exKF
