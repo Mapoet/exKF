@@ -1,0 +1,8 @@
+In file included from /usr/include/eigen3/Eigen/Core:366,
+                 from exKF.hpp:11,
+                 from exKF.cpp:1:
+/usr/include/eigen3/Eigen/src/Core/DenseCoeffsBase.h: In instantiation of ‘Eigen::DenseCoeffsBase<Derived, 1>::Scalar& Eigen::DenseCoeffsBase<Derived, 1>::operator[](Eigen::Index) [with Derived = Eigen::Matrix<double, -1, -1>; Eigen::DenseCoeffsBase<Derived, 1>::Scalar = double; Eigen::Index = long int]’:
+exKF.cpp:35:59:   required from here
+/usr/include/eigen3/Eigen/src/Core/DenseCoeffsBase.h:406:7: error: static assertion failed: THE_BRACKET_OPERATOR_IS_ONLY_FOR_VECTORS__USE_THE_PARENTHESIS_OPERATOR_INSTEAD
+  406 |       EIGEN_STATIC_ASSERT(Derived::IsVectorAtCompileTime,
+      |       ^~~~~~~~~~~~~~~~~~~
