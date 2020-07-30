@@ -4,9 +4,11 @@
 
 ## const vel kf in two dimention
 theory:
+
 $$[x_{t+\delta t},y_{t+\delta t},vx_{t+\delta t},vy_{t+\delta t}]^t=[1,0,\delta t,0;0,1,0,\delta t;0,0,1,0;0,0,01][x_t,y_t,vx_t,vy_t]^t$$
 
 measure:
+
 $$[x_m,y_m]^t=[1,0,0,0;0,1,0,0][x_{t+\delta t},y_{t+\delta t},vx_{t+\delta t},vy_{t+\delta t}]^t$$
 
 ## test
