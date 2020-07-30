@@ -41,7 +41,7 @@ data feeded in:
 ![result](./two.png)
 Figure of result: yellow, measure; red, kalman filter; blue, theory.
 
-## Note on the exKF
+## Note on the exKF 
 
 * used template with std::valarray and Eigen3.
 * self-defined Theory/Measure Function to the predict/update process is enabled with lambda, functor, function, and etc.

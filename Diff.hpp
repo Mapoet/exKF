@@ -1,13 +1,13 @@
 //
-//  Diff_tnna.h
-//  TNNA
+//  Diff.h
+//  SphExpress
 //
-//  Created by Mapoet Niphy on 2018/11/2.
-//  Copyright © 2018年 Mapoet Niphy. All rights reserved.
+//  Created by Mapoet Niphy on 2020/05/30.
+//  Copyright 2020 Mapoet Niphy. All rights reserved.
 //
 
-#ifndef Diff_h
-#define Diff_h
+#ifndef __Diff_h__
+#define __Diff_h__
 #include <valarray>
 namespace exKF{
     template<class Cell>
@@ -21,14 +21,33 @@ namespace exKF{
         operator Cell()const{
             return _val;
         }
-        Diff<Cell> operator +=(const Diff<Cell>& a){
-            _val =_val+ a._val;
-            _dval =_dval+ a._dval;
+        friend Diff<Cell> operator +(const Diff<Cell>& a) {
+            return a;
+        }
+        friend Diff<Cell> operator -(const Diff<Cell>& a) {
+            Diff<Cell> b = a;
+            b._val *= Cell(-1.0);
+            b._dval = Cell(-1.0)* b._dval;
+            return b;
+        }
+        Diff<Cell> operator +=(const Diff<Cell>& a) {
+            _val = _val + a._val;
+            _dval = _dval + a._dval;
+            return *this;
+        }
+        Diff<Cell> operator +=(const Cell& a){
+            _val =_val+ a;
+            _dval =a._dval;
             return *this;
         }
         Diff<Cell> operator -=(const Diff<Cell>& a){
 			_val = _val- a._val;
 			_dval = _dval- a._dval;
+            return *this;
+        }
+        Diff<Cell> operator -=(const Cell& a) {
+            _val = _val - a;
+            _dval = _dval;
             return *this;
         }
         Diff<Cell> operator *=(const Diff<Cell>& a){
@@ -38,6 +57,13 @@ namespace exKF{
             _dval = dval*a._val + val*a._dval;
             return *this;
         }
+        Diff<Cell> operator *=(const Cell& a) {
+            auto  val = _val;
+            auto dval = _dval;
+            _val = val * a;
+            _dval = dval * a;
+            return *this;
+        }
         Diff<Cell> operator /=(const Diff<Cell>& a){
             auto  val = _val;
             auto dval = _dval;
@@ -45,7 +71,12 @@ namespace exKF{
             _dval = (dval*a._val - val*a._dval) / (a._val*a._val);
             return *this;
         }
-    };
+        Diff<Cell> operator /=(const Cell& a) {
+            _val = _val / a;
+            _dval = _dval /a;
+            return *this;
+        }
+    }; 
     template<class Cell>
     Diff<Cell> operator+(const Diff<Cell>& a, const Diff<Cell>& b){
         Diff<Cell> v = a;
@@ -144,13 +175,6 @@ namespace exKF{
 		v._dval = b*std::pow(a._val, b - 1)*a._dval;
 		return v;
 	}
-	template<class Cell>
-	Diff<Cell>& abs(const Diff<Cell>& a){
-		Diff<Cell> v;
-		v._val = std::abs(a._val);
-		v._dval = (a._val > 0 ? 1.0 : -1.0)*a._dval;
-		return v;
-	}
     template<class Cell>
     Diff<Cell> sin(const Diff<Cell>& a){
         Diff<Cell> v;
@@ -205,12 +229,53 @@ namespace exKF{
 		v._dval = a._dval / (a._val);
 		return v;
 	}
-    template<typename IOS,typename Cell>
-    IOS& operator <<(IOS&ios,const Diff<Cell>&cell){
-        ios<<"("<<cell._val<<":";
-        for(std::size_t i=0;i<cell._dval.size();i++)
-        ios<<cell._dval[i]<<(i==cell._dval.size()-1?')':',');
-        return ios;
+    template<class Cell>
+    Diff<Cell> if_gt(const Diff<Cell>& u, const Diff<Cell>& c, const Diff<Cell>& x, const Diff<Cell>& a, const Diff<Cell>& b) {
+        Diff<Cell> cf = Cell(1.0) / (Cell(1.0) + exp(-u * (x - c)));
+        return (Cell(1.0) - cf) * a + cf * b;
+    }
+    template<class Cell>
+    Diff<Cell> if_gt(const Cell& u, const Diff<Cell>& c, const Diff<Cell>& x, const Diff<Cell>& a, const Diff<Cell>& b) {
+        Diff<Cell> cf = Cell(1.0) / (Cell(1.0) + exp(-u * (x - c)));
+        return (Cell(1.0) - cf) * a + cf * b;
+    }
+    template<class Cell>
+    Diff<Cell> if_gt(const Diff<Cell>& u, const Cell& c, const Diff<Cell>& x, const Diff<Cell>& a, const Diff<Cell>& b) {
+        Diff<Cell> cf = Cell(1.0) / (Cell(1.0) + exp(-u * (x - c)));
+        return (Cell(1.0) - cf) * a + cf * b;
+    }
+    template<class Cell>
+    Diff<Cell> if_gt(const Cell& u, const Cell& c, const Diff<Cell>& x, const Diff<Cell>& a, const Diff<Cell>& b) {
+        Diff<Cell> cf = Cell(1.0) / (Cell(1.0) + exp(-u * (x - c)));
+        return (Cell(1.0) - cf) * a + cf * b;
+    }
+    template<class Cell>
+    Diff<Cell> if_is(const Diff<Cell>& u, const Diff<Cell>& c, const Diff<Cell>& x, const Diff<Cell>& a, const Diff<Cell>& b) {
+        Diff<Cell> cf = Cell(1.0) / (Cell(1.0) + exp(-u*u * (x - c) * (x - c)));
+        return (Cell(1.0) - cf) * a + cf * b;
+    }
+    template<class Cell>
+    Diff<Cell> if_is(const Cell& u, const Diff<Cell>& c, const Diff<Cell>& x, const Diff<Cell>& a, const Diff<Cell>& b) {
+        Diff<Cell> cf = Cell(1.0) / (Cell(1.0) + exp(-u * u * (x - c) * (x - c)));
+        return (Cell(1.0) - cf) * a + cf * b;
+    }
+    template<class Cell>
+    Diff<Cell> if_is(const Diff<Cell>& u, const Cell& c, const Diff<Cell>& x, const Diff<Cell>& a, const Diff<Cell>& b) {
+        Diff<Cell> cf = Cell(1.0) / (Cell(1.0) + exp(-u * u * (x - c) * (x - c)));
+        return (Cell(1.0) - cf) * a + cf * b;
+    }
+    template<class Cell>
+    Diff<Cell> if_is(const Cell& u, const Cell& c, const Diff<Cell>& x, const Diff<Cell>& a, const Diff<Cell>& b) {
+        Diff<Cell> cf = Cell(1.0) / (Cell(1.0) + exp(-u * u * (x - c) * (x - c)));
+        return (Cell(1.0) - cf) * a + cf * b;
+    }
+    template<class Cell>
+    Diff<Cell>& abs(const Diff<Cell>& u, const Diff<Cell>& a) {
+        return if_gt(u,Cell(0.0),a,a,-a);
+    }
+    template<class Cell>
+    Diff<Cell>& abs(const Cell& u, const Diff<Cell>& a) {
+        return if_gt(u, Cell(0.0), a, a, -a);
     }
 }
-#endif /* Diff_h */
+#endif /* __Diff_h__ */
