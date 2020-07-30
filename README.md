@@ -19,7 +19,7 @@ $$[x_m,y_m]^t=[1,0,0,0;0,1,0,0][x_{t+\delta t},y_{t+\delta t},vx_{t+\delta t},vy
     measure[0]=theory[0]+randn(gen)*beta;
     measure[1]=theory[1]+randn(gen)*beta;
 ```
-![result](https://github.com/mapoet/exKF/t.jpg)
+![result](https://github.com/mapoet/exKF/blog/master/t.jpg)
 Figure of result: yellow, measure; red, kalman filter; blue, theory.
 
 ## Note on the exKF
