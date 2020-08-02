@@ -8,26 +8,22 @@ int main(int argc,char**argv){
     std::random_device rd;
     std::mt19937 gen(rd());
     std::normal_distribution<double> randn;
-    double lambda=argc>=2?atof(argv[1]):0.0001,beta=50;
-    exKF::Array  x0={0.0,0.0,0.0,0.0,0.0,0.0},p={0.0},theory={0.0,0.0},measure={0.0,0.0};
-    exKF::Matrix P(6,6),Q(6,6),R(2,2),xc;
+    double lambda=argc>=2?atof(argv[1]):0.01,beta=50;
+    exKF::Array  x0={0.0,0.0,0.1,0.2},p={0.0},theory={0.0,0.0},measure={0.0,0.0};
+    exKF::Matrix P(4,4),Q(4,4),R(2,2),xc;
     P(0,0)=1.0;
     P(1,1)=1.0;
     P(2,2)=1.0;
     P(3,3)=1.0;
-    P(4,4)=1.0;
-    P(5,5)=1.0;
     Q=lambda*P;
     R(0,0)=beta*beta;
     R(1,1)=beta*beta;
     exKF kf(x0,P,p,[](const exKF::DiffArray&argsin,const exKF::Array&parameter){
-        exKF::DiffArray argsout(6);
-        argsout[0]=argsin[0]+argsin[2]*parameter[1]+argsin[2]*parameter[1]*parameter[1]/2;
-        argsout[1]=argsin[1]+argsin[3]*parameter[1]+argsin[3]*parameter[1]*parameter[1]/2;
-        argsout[2]=argsin[2]+argsin[4]*parameter[1];
-        argsout[3]=argsin[3]+argsin[5]*parameter[1];
-        argsout[4]=argsin[4];
-        argsout[5]=argsin[5];
+        exKF::DiffArray argsout(4);
+        argsout[0]=argsin[0]+argsin[2]*parameter[1];
+        argsout[1]=argsin[1]+argsin[3]*parameter[1];
+        argsout[2]=argsin[2];
+        argsout[3]=argsin[3];
         return argsout;
     });
     for (auto i=0;i<10000;i++){
