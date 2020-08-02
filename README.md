@@ -38,7 +38,7 @@ data feeded in:
     measure[0]=theory[0]+randn(gen)*beta;
     measure[1]=theory[1]+randn(gen)*beta;
 ```
-![result](./two.png)
+![result](./pic2.png)
 Figure of result: yellow, measure; red, kalman filter; blue, theory.
 
 ## Note on the exKF 
