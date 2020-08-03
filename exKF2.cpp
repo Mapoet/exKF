@@ -2,13 +2,6 @@
 #include <iostream>
 #include <random>
 #include <numeric>
-//
-//  exKF1.cpp
-//  exKF1
-//
-//  Created by Mapoet Niphy on 2020/7/29.
-//  Copyright © 2020年 Mapoet Niphy. All rights reserved.
-//
 #include"exKF.hpp"
 int main(int argc,char**argv){
     typedef exKF::exKF<double>    exKF;
@@ -29,8 +22,8 @@ int main(int argc,char**argv){
     R(1,1)=beta*beta;
     exKF kf(x0,P,p,[](const exKF::DiffArray&argsin,const exKF::Array&parameter){
         exKF::DiffArray argsout(6);
-        argsout[0]=argsin[0]+argsin[2]*parameter[1]+argsin[2]*parameter[1]*parameter[1]/2;
-        argsout[1]=argsin[1]+argsin[3]*parameter[1]+argsin[3]*parameter[1]*parameter[1]/2;
+        argsout[0]=argsin[0]+argsin[2]*parameter[1]+argsin[4]*parameter[1]*parameter[1]/2;
+        argsout[1]=argsin[1]+argsin[3]*parameter[1]+argsin[5]*parameter[1]*parameter[1]/2;
         argsout[2]=argsin[2]+argsin[4]*parameter[1];
         argsout[3]=argsin[3]+argsin[5]*parameter[1];
         argsout[4]=argsin[4];

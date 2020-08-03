@@ -179,7 +179,7 @@ namespace exKF{
 	Diff<Cell> sqrt(const Diff<Cell>& a){
 		Diff<Cell> v;
 		v._val = std::sqrt(a._val);
-		v._dval = Cell(0.5)/v._val;
+		v._dval = Cell(0.5)/v._val*a._dval;
 		return v;
 	}
     template<class Cell>

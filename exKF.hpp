@@ -15,6 +15,7 @@
 namespace exKF
 {
 
+
     template <typename Cell>
     class exKF
     {
@@ -23,7 +24,6 @@ namespace exKF
         typedef std::valarray<Diff<Cell>>       DiffArray;
         typedef Eigen::Matrix<Cell, -1, -1>     Matrix;
         typedef DiffArray (*Apply)(const DiffArray &argsin, const Array &parameter);
-
     private:
         Apply _theory;
         Matrix _P;
@@ -100,7 +100,7 @@ namespace exKF
                 }
                 // get H
                 for (std::size_t i = 0; i < nv * n; i++)
-                    H(i / n, i % n) = _X[i / n]._dval[i % n];
+                    H(i / n, i % n) = Y[i / n]._dval[i % n];
                 // get S[K]
                 K = H * _P * H.transpose() + R;
                 //modify the error by its error
@@ -132,7 +132,6 @@ namespace exKF
                     _X[i]._dval.resize(n, Cell(0.0));
                     _X[i]._dval[i] = Cell(1.0);
                 }
-//            fprintf(stderr,"%d,%lf,%lf,%lf\n",it,dxx/n,dX(0),K(0,0));
             } while (dxx / n > 1e-4 && it++ < 3);
             // update _P
             _P = K;
@@ -162,8 +161,9 @@ namespace exKF
                 dY(i) = value[i] - Y[i]._val;
             // get H
             for (std::size_t i = 0; i < nv * n; i++)
-                H(i / n, i % n) = _X[i / n]._dval[i % n];
+                H(i / n, i % n) = Y[i / n]._dval[i % n];
             // get S[K]
+
             K = H * _P * H.transpose() + R;
             // get K (gain matrix)
             K = K.inverse();
