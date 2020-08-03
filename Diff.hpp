@@ -158,7 +158,7 @@ namespace exKF{
 	Diff<Cell> pow(const Diff<Cell>& a, const Diff<Cell>& b){
 		Diff<Cell> v;
 		v._val = std::pow(a._val, b._val);
-		v._dval = b._val*std::pow(a._val, b._val - 1)*a._dval + v._val*std::log(a._val)*b._dval;
+		v._dval = b._val*std::pow(a._val, b._val - Cell(1.0))*a._dval + v._val*std::log(a._val)*b._dval;
 		return v;
 	}
 	template<class Cell>
@@ -172,7 +172,14 @@ namespace exKF{
 	Diff<Cell> pow(const Diff<Cell>& a, const Cell& b){
 		Diff<Cell> v;
 		v._val = std::pow(a._val, b);
-		v._dval = b*std::pow(a._val, b - 1)*a._dval;
+		v._dval = b*std::pow(a._val, b - Cell(1.0))*a._dval;
+		return v;
+	}
+	template<class Cell>
+	Diff<Cell> sqrt(const Diff<Cell>& a){
+		Diff<Cell> v;
+		v._val = std::sqrt(a._val);
+		v._dval = Cell(0.5)/v._val;
 		return v;
 	}
     template<class Cell>

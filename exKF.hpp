@@ -19,9 +19,9 @@ namespace exKF
     class exKF
     {
     public:
-        typedef std::valarray<Cell> Array;
-        typedef std::valarray<Diff<Cell>> DiffArray;
-        typedef Eigen::Matrix<Cell, -1, -1> Matrix;
+        typedef std::valarray<Cell>             Array;
+        typedef std::valarray<Diff<Cell>>       DiffArray;
+        typedef Eigen::Matrix<Cell, -1, -1>     Matrix;
         typedef DiffArray (*Apply)(const DiffArray &argsin, const Array &parameter);
 
     private:
