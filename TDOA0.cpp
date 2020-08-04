@@ -35,7 +35,7 @@ int main(int argc, char **argv)
     EXKF::Matrix P(3,3),Q,xc;
     P(0,0)=1.0;
     P(1,1)=1.0;
-    P(2,2)=1.0/CLIGHT;
+    P(2,2)=1.0/CLIGHT/CLIGHT;
     Q=lambda*P;
     EXKF kf(x0,P,p,[](const EXKF::DiffArray&argsin,const EXKF::Array&parameter){
         EXKF::DiffArray argsout(3);

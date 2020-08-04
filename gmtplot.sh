@@ -15,7 +15,7 @@
       rm exKF${i} exKF${i}.dat pic${i}.ps
 
   done
-for i in 0 1;do
+for i in 0 1 2;do
 g++ TDOA${i}.cpp -o TDOA${i} -llapack -lblas -lm 
 ./TDOA${i} > TDOA${i}.dat
 
